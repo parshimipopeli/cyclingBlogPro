@@ -26,6 +26,19 @@ CREATE TABLE IF NOT EXISTS `addresses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 INSERT INTO addresses (streetNumber,streetName,postalCode,city,country) VALUES ('29','Résidence la roseraie','62122','Lapugnoy','France'),('12','rue de jonathan',6200,'Arras','France');
 
+DROP TABLE IF EXISTS `addressCommandes`;
+CREATE TABLE IF NOT EXISTS `addressCommandes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `streetNumber` int(11) NOT NULL,
+  `streetName` varchar(255)  NOT NULL,
+  `postalCode` int(11) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `creationDate` datetime DEFAULT NOW(),
+  `deleteDate` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
@@ -36,26 +49,26 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `role`varchar(255) NOT NULL DEFAULT 'user',
   `idAddress` int(11) NOT NULL,
+  `idAdressCommandes` int(11),
   `creationDate` datetime DEFAULT NOW(),
   `updateDate` datetime DEFAULT NOW(),
   `deleteDate` datetime DEFAULT NULL,
   `active` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`idAddress`) REFERENCES addresses (`id`)
+  FOREIGN KEY (`idAddress`) REFERENCES addresses (`id`),
+  FOREIGN KEY (`idAdressCommandes`) REFERENCES addressCommandes (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 INSERT INTO users (name,surname,mail,password,idAddress) VALUES ('Lamorski','Philippe','philippe.lamorski@gmail.com','$2y$10$8SP.Eni4WPGV98CM1Z11vOZMxN/UxnpsQEkGDg56VhV2.3IwWaxSW',1),('Delannoy','Jonathan','delannoy.jonathan94@laposte.net','$2y$10$HS2oIdLY3TkmKn7H2dcGheLpQTXT9mqQmq/FHQge4LuofTDpSJHam',2);
 
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cat1` varchar(255) NOT NULL,
-  `cat2` varchar(255) NOT NULL,
-  `cat3` varchar(255) NOT NULL,
-  `cat4` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-insert into category (cat1,cat2,cat3,cat4) 
-values ('courses','materiel','entrainement','mecanique');
+insert into category (name) 
+values ('courses'),('materiel'),('entrainement'),('mecanique'),('divers');
+
 
 DROP TABLE IF EXISTS `articles`;
 CREATE TABLE IF NOT EXISTS `articles` (
@@ -91,6 +104,24 @@ CREATE TABLE IF NOT EXISTS `produits` (
   `reference` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `picture`;
+CREATE TABLE IF NOT EXISTS `picture` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idProduit` int(11) ,
+  `idArticle` int(11)  ,
+  `picture1` varchar(255) NOT NULL,
+  `picture2` varchar(255) NOT NULL,
+  `picture3` varchar(255) NOT NULL,
+  `creationDate` datetime DEFAULT NOW(),
+  `deleteDate` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+    FOREIGN KEY (`idProduit`) REFERENCES produits (`id`),
+  FOREIGN KEY (`idArticle`) REFERENCES articles (`id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `ligneCommandes`;
 CREATE TABLE IF NOT EXISTS `ligneCommandes` (
