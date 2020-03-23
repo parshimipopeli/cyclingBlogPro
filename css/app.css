@@ -1,3 +1,44 @@
-body{
-    background-color: rgb(51, 92, 10);
+body {
+    background-color: #c2c6ca;
+}
+
+.breadcrumb {
+    height: 10px;
+}
+
+.header {
+    height: 150px;
+    background-color: brown;
+}
+
+.logo img {
+    width: 250px;
+    height: 150px;
+    background-size: cover;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    height: 30px;
+    background-color: #335867;
+}
+
+.navbar {
+    width: 10%;
+    height: 800px;
+    background-color: #335867;
+}
+
+ul li a {
+    color: #edeeef;
+}
+
+.container {
+    display: flex;
+}
+
+.entete {
+    display: flex;
+    flex-direction: column;
 }
